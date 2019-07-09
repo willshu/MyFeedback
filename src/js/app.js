@@ -38,15 +38,12 @@ App = {
   // Listen for events emitted from the contract
   listenForEvents: function() {
     App.contracts.MyFeedback.deployed().then(function(instance) {
-      // Restart Chrome if you are unable to receive this event
-      // This is a known issue with Metamask
-      // https://github.com/MetaMask/metamask-extension/issues/2393
       instance.reviewEvent({}, {
         fromBlock: 0,
         toBlock: 'latest'
       }).watch(function(error, event) {
         console.log("event triggered", event)
-        // Reload when a new vote is recorded
+        // Reload when a new review is recorded
         App.render();
       });
     });
@@ -56,8 +53,6 @@ App = {
     var feedbackInstance;
     //var loader = $("#loader");
     var content = $("#content");
-    //loader.show();
-    //content.show()
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -99,7 +94,7 @@ App = {
       return instance.setReview(score_technical, comment_technical, score_communication, comment_communication,
         score_overall, comment_overall, { from: App.account });
     }).then(function(result) {
-      // Wait for votes to update
+      // Wait for review
       $("#content").hide();
       //$("#loader").show();
     }).catch(function(err) {
