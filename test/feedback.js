@@ -18,7 +18,7 @@ contract("MyFeedback", function(accounts) {
   it("allows a reviewer to leave a review", function() {
     return MyFeedback.deployed().then(function(instance) {
       feedbackInstance = instance;
-      return feedbackInstance.setReview(10, "great", 10, "great", 10, "great", { from: accounts[1] });
+      return feedbackInstance.setReview(5, "great", 5, "great", 5, "great", { from: accounts[1] });
     }).then(function(receipt) {
       assert.equal(receipt.logs.length, 1, "an event was triggered");
       assert.equal(receipt.logs[0].event, "reviewEvent", "the event type is correct");
@@ -28,7 +28,7 @@ contract("MyFeedback", function(accounts) {
   it("throws an exception for 2nd review", function() {
     return MyFeedback.deployed().then(function(instance) {
       feedbackInstance = instance;
-      return feedbackInstance.setReview(10, "great", 10, "great", 10, "great", { from: accounts[1] });
+      return feedbackInstance.setReview(5, "great", 5, "great", 5, "great", { from: accounts[1] });
     }).then(assert.fail).catch(function(error) {
       assert(error.message.indexOf('revert') >= 0, "error message must contain revert");
     })
@@ -39,7 +39,7 @@ contract("MyFeedback", function(accounts) {
     feedbackInstance = instance;
     return feedbackInstance.getReview(0, {from: accounts[0]});
     }).then(function(result){
-        assert.equal(result['0'].toString(), 10)
+        assert.equal(result['0'].toString(), 5)
     })
 
   });

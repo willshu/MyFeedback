@@ -57,7 +57,7 @@ App = {
     //var loader = $("#loader");
     var content = $("#content");
     //loader.show();
-    content.show()
+    //content.show()
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -66,47 +66,25 @@ App = {
         $("#accountAddress").html("Your Account: " + account);
       }
     });
-
-    //$("#candidateName").html("Leave feedback for: " + candidateName );
-    // Load contract data
-  /* 
+    // Check if user is the owner
     App.contracts.MyFeedback.deployed().then(function(instance) {
-      feedbackInstance = instance;
-      return feedbackInstance.candidatesCount();
-    }).then(function(candidatesCount) {
-      var candidatesResults = $("#candidatesResults");
-      candidatesResults.empty();
-
-      var candidatesSelect = $('#candidatesSelect');
-      candidatesSelect.empty();
- 
-      for (var i = 1; i <= candidatesCount; i++) {
-        electionInstance.candidates(i).then(function(candidate) {
-          var id = candidate[0];
-          var name = candidate[1];
-          var voteCount = candidate[2];
-
-          // Render candidate Result
-          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>"
-          candidatesResults.append(candidateTemplate);
-
-          // Render candidate ballot option
-          var candidateOption = "<option value='" + id + "' >" + name + "</ option>"
-          candidatesSelect.append(candidateOption);
-        });
-      }
-      return electionInstance.voters(App.account);
-    }).then(function(hasVoted) {
-      // Do not allow a user to vote
-      if(hasVoted) {
+      feedbackInstance = instance;  
+      return feedbackInstance.owner();
+    }).then(function(isOwner) {
+      if(isOwner == App.account){
         $('form').hide();
+        content.show()
       }
-      loader.hide();
-      content.show();
-    }).catch(function(error) {
-      console.warn(error); 
-      
-    });*/
+    // Check if reviewer has already reviewed 
+      return feedbackInstance.hasReviewed(App.account);
+        }).then(function(hasReviewed) {
+          if(hasReviewed) {
+            $('form').hide();
+          }
+          content.show();
+        }).catch(function(error) {
+          console.warn(error); 
+    });
   },
 
   submitReview: function() {
@@ -127,6 +105,8 @@ App = {
     }).catch(function(err) {
       console.error(err);
     });
+    //reset the form
+    document.getElementById("myForm").reset()
   }
 };
 

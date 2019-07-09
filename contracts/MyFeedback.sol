@@ -40,6 +40,7 @@ contract MyFeedback {
     
     mapping  (address => Review) reviewer;
     address [] public reviewerAccts;
+    mapping(address => bool) public hasReviewed;
     
     modifier onlyOwner {
         require(msg.sender == owner, 'Only the owner can call this function');
@@ -62,9 +63,10 @@ contract MyFeedback {
     function setReview(uint _technical, string memory _comment_technical,
         uint _communication, string memory _comment_communication,  
         uint _overall, string memory _comment_overall) notAlreadyReviewed notOwner public {
-            require(_technical <= 10 && _communication <= 10 && _overall <= 10, 'Score must be between 1 and 10');
+            require(_technical <= 5 && _communication <= 5 && _overall <= 5, 'Score must be between 1 and 5');
             reviewer[msg.sender] = Review(_technical, _communication, _overall, _comment_communication, _comment_technical, _comment_overall, true);
             reviewerAccts.push(msg.sender) -1;
+            hasReviewed[msg.sender] = true;
             emit reviewEvent(msg.sender, reviewer[msg.sender].overallScore);
         }
     
