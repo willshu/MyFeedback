@@ -1,21 +1,3 @@
-/*
-MyFeedback.sol:
-
-This smart contract is deployed by an individual who is requesting feedback for a performance review. 
-Once deployed by the user, only this user can retrieve and read feedback given by others. 
-Additionally, only users other than the owner can leave feedback.
-
-Front end:
-
-This is where I need help. I need a very simple front end which connects to a ganache instance via  metamask and  has the following capabilities. 
-
-- any user can deploy an instance of the contract to the blockchain. this account  will be the owner.
-- once deployed,  the contract  instance name can be selected in UI
--  if the account  is the same as the account that  deployed the  contract, selecting the contract will view the feedback.
-- if the account is different  than the account that deployed  the contract, selecting the contract will display a feedback form.
--  include transaction link and records for any contract calls  or creation
-*/
-
 pragma solidity 0.5.8;
 
 contract MyFeedback {
