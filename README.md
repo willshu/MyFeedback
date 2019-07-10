@@ -4,7 +4,7 @@
 
 MyFeedback is a simple Distributed Application (dapp) that allows a user who is requesting feedback (ie a job candidate, employee, etc) to receive feedback from reviewers. MyFeedback is written in Javascript and Solidity, and runs on an Ethereum Virtual Machine (EVM)
 
-You can leave feedback for me, the author, at [https://myfeedback.willshu.com](https://myfeedback.willshu.com/)
+You can leave feedback for me, the author, at [https://myfeedback.willshu.com](https://myfeedback.willshu.com/), which is running off the code in this master branch (you'll need Metamask and a Ropsten test account with Ether)
 
 **Requirements**
 * Chrome browser with the [Metamask extension](https://metamask.io/)
