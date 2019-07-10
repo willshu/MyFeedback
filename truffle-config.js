@@ -1,3 +1,7 @@
+var HDWalletProvider = require("truffle-hdwallet-provider");
+var mnemonic = process.env.MNEMONIC;
+var infura_url = process.env.INFURA_URL;
+
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
   // for more about customizing your Truffle configuration!
@@ -9,6 +13,13 @@ module.exports = {
     },
     develop: {
       port: 8545
-    }
+    },
+    ropsten: {
+      provider: function() {
+        return new HDWalletProvider(mnemonic, infura_url)
+      },
+      network_id: 3
+    }   
   }
 };
+
