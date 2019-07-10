@@ -4,12 +4,12 @@ App = {
   account: '0x0',
   hasVoted: false,
 
-  init: function() {
+  init: async function() {
+    
     return App.initWeb3();
   },
 
   initWeb3: function() {
-    // TODO: refactor conditional
     if (typeof web3 !== 'undefined') {
       // If a web3 instance is already provided by Meta Mask.
       App.web3Provider = web3.currentProvider;
@@ -25,7 +25,7 @@ App = {
   initContract: function() {
     $.getJSON("MyFeedback.json", function(feedback) {
       // Instantiate a new truffle contract from the artifact
-      App.contracts.MyFeedback = TruffleContract(feedback);
+      App.contracts.MyFeedback = TruffleContract(feedback); //this can use web3 as well
       // Connect provider to interact with contract
       App.contracts.MyFeedback.setProvider(App.web3Provider);
 
@@ -61,24 +61,35 @@ App = {
         $("#accountAddress").html("Your Account: " + account);
       }
     });
-    // Check if user is the owner
+    // Check if user is the owner and retrieve the reviews
     App.contracts.MyFeedback.deployed().then(function(instance) {
       feedbackInstance = instance;  
       return feedbackInstance.owner();
     }).then(function(isOwner) {
       if(isOwner == App.account){
         $('form').hide();
-        content.show()
+        content.show();
+        return feedbackInstance.totalReviewers()
       }
+    }).then((totalreviewers) => {
+        const promises = []
+        for (let i=0; i<totalreviewers; i++){
+          promises.push(feedbackInstance.getReview(i));
+        }
+        return Promise.all(promises);
+        
+    }).then((reviews) => { 
+        console.log(reviews);
     // Check if reviewer has already reviewed 
       return feedbackInstance.hasReviewed(App.account);
-        }).then(function(hasReviewed) {
-          if(hasReviewed) {
-            $('form').hide();
-          }
-          content.show();
-        }).catch(function(error) {
-          console.warn(error); 
+    }).then(function(hasReviewed) {
+      if(hasReviewed) {
+        $('form').hide();
+      }
+      content.show();
+        
+    }).catch(function(error) {
+      console.warn(error); 
     });
   },
 
@@ -91,6 +102,7 @@ App = {
     var comment_overall = $('#comment_overall').val();
 
     App.contracts.MyFeedback.deployed().then(function(instance) {
+      
       return instance.setReview(score_technical, comment_technical, score_communication, comment_communication,
         score_overall, comment_overall, { from: App.account });
     }).then(function(result) {
