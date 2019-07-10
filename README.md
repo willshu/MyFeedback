@@ -4,6 +4,13 @@
 
 MyFeedback is a simple Distributed Application (dapp) that allows a user who is requesting feedback (ie a job candidate, employee, etc) to receive feedback from reviewers. MyFeedback is written in Javascript and Solidity, and runs on an Ethereum Virtual Machine (EVM)
 
+You can leave feedback for me, the author, at [https://myfeedback.willshu.com](https://myfeedback.willshu.com/)
+
+**Requirements**
+* Chrome browser with the [Metamask extension](https://metamask.io/)
+* Account on the Ropsten test network with Ether (get some [here](https://faucet.metamask.io/))
+* For the backend - Truffle Framework, NodeJS, truffle-hd-wallet
+
 **Contract rules:**
 
 * The user requesting feedback will be the contract owner. 
@@ -15,4 +22,4 @@ MyFeedback is a simple Distributed Application (dapp) that allows a user who is 
 **UI features**
 ![screenshot](src/images/screenshot.png)
 
-UI code is located in [the src folder](src/). When the UI is loaded in the browser (client requirements: Chrome browser, [Metamask extension](https://metamask.io/)), [app.js](src/js/app.js) will load the current wallet address, and check it against the owner as well as a list of accounts that have already reviewed. If the address is neither, the app will load the above UI. Once a review has been submitted, or if the account is the owner, then the form will not display.
+UI code is located in [the src folder](src/). When the UI is loaded in the browser, [app.js](src/js/app.js) will load the current wallet address, and check it against the owner as well as a list of accounts that have already reviewed. If the address is neither, the app will load the above UI. Once a review has been submitted, or if the account is the owner, then the form will not display.
